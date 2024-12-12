@@ -1,4 +1,4 @@
-package menu.domain;
+package menu.domain.food;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
