@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import menu.domain.food.Menu;
 import menu.error.exception.CoachNameException;
+import menu.error.exception.ImpossibleMenuCountException;
 
 public class Coach {
 
@@ -13,7 +14,7 @@ public class Coach {
     private static final int MAX_IMPOSSIBLE_MENUS = 2;
 
     private final String name;
-    private final List<Menu> impossibleMenus = new ArrayList<>(MAX_IMPOSSIBLE_MENUS);
+    private List<Menu> impossibleMenus;
 
     public Coach(String name) {
         validateName(name);
@@ -22,6 +23,17 @@ public class Coach {
 
     public String getName() {
         return name;
+    }
+
+    public boolean canEat(Menu menu) {
+        return !impossibleMenus.contains(menu);
+    }
+
+    public void setImpossibleMenus(List<Menu> impossibleMenus) {
+        if (impossibleMenus.size() > MAX_IMPOSSIBLE_MENUS) {
+            throw new ImpossibleMenuCountException();
+        }
+        this.impossibleMenus = impossibleMenus;
     }
 
     private void validateName(String name) {
