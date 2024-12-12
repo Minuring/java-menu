@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import java.util.List;
 import java.util.Map;
 import menu.domain.food.Category;
+import menu.domain.food.Menu;
 import menu.error.exception.CoachesCountException;
 import menu.error.exception.DuplicatedCoachException;
 import org.junit.jupiter.api.DisplayName;
@@ -90,18 +91,33 @@ class RecommenderTest {
         );
     }
 
+    Recommender recommender = new Recommender(List.of(
+        new Coach("코치1"),
+        new Coach("코치2")
+    ));
+
     @RepeatedTest(50)
     void choiceCategoriesTest() {
-        Recommender recommender = new Recommender(List.of(
-            new Coach("코치1"),
-            new Coach("코치2")
-        ));
-
         List<Category> categories = recommender.recommendCategories(5);
 
         Map<String, Long> countsOfCategory = categories.stream()
             .collect(groupingBy(Enum::name, counting()));
-        assertThat(countsOfCategory.values())
-            .allMatch(count -> count <= 2);
+
+        assertThat(countsOfCategory.values()).allMatch(count -> count <= 2);
+    }
+
+    @RepeatedTest(50)
+    void choiceMenusTest() {
+        List<Menu> menus = recommender.choiceMenuByNames(
+            List.of("규동", "우동", "미소시루", "스시", "가츠동", "오니기리", "하이라이스", "라멘", "오코노미야끼"),
+            List.of("스시", "오니기리"),
+            5
+        );
+
+        Map<String, Long> countsOfMenu = menus.stream()
+            .collect(groupingBy(Enum::name, counting()));
+
+        assertThat(menus).doesNotContain(Menu.ofName("스시"), Menu.ofName("오니기리"));
+        assertThat(countsOfMenu.values()).allMatch(count -> count == 1);
     }
 }

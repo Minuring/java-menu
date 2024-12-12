@@ -4,6 +4,7 @@ import camp.nextstep.edu.missionutils.Randoms;
 import java.util.ArrayList;
 import java.util.List;
 import menu.domain.food.Category;
+import menu.domain.food.Menu;
 import menu.error.exception.CoachesCountException;
 import menu.error.exception.DuplicatedCoachException;
 
@@ -23,12 +24,11 @@ public class Recommender {
 
     public List<Category> recommendCategories(int count) {
         List<Category> categories = new ArrayList<>();
-        for (int sequence = 1; sequence <= count; sequence++) {
+        while (categories.size() < count) {
             int randomValue = Randoms.pickNumberInRange(1, Category.values().length);
             Category category = Category.of(randomValue);
 
             if (shouldRetryChoice(categories, category)) {
-                sequence -= 1;
                 continue;
             }
             categories.add(category);
@@ -41,6 +41,28 @@ public class Recommender {
             .filter(inList -> inList.equals(category))
             .count();
         return alreadySelectedCount == MAX_SAME_CATEGORY_PER_WEEK;
+    }
+
+    public List<Menu> choiceMenuByNames(List<String> menus, List<String> exclude, int count) {
+        List<String> menuNames = new ArrayList<>();
+        while (menuNames.size() < count) {
+            String choice = choice(menus, exclude);
+            if (menuNames.contains(choice)) {
+                continue;
+            }
+            menuNames.add(choice);
+        }
+
+        return menuNames.stream().map(Menu::ofName).toList();
+    }
+
+    private String choice(List<String> menus, List<String> exclude) {
+        String choice;
+        do {
+            choice = Randoms.shuffle(menus).get(0);
+        } while (exclude.contains(choice));
+
+        return choice;
     }
 
     private void validateDuplicate(List<Coach> coaches) {
