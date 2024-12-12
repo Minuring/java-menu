@@ -55,7 +55,7 @@ public enum Menu {
     GRATANG("그라탱", AMERICAN),
     NYOKKI("뇨끼", AMERICAN),
     KKISHU("끼슈", AMERICAN),
-    FRENCH("프렌치", AMERICAN),
+    FRENCH("프렌치 토스트", AMERICAN),
     BAGUETTE("바게트", AMERICAN),
     SPAGHETTI("스파게티", AMERICAN),
     PIZZA("피자", AMERICAN),
@@ -74,5 +74,12 @@ public enum Menu {
             .filter(menu -> menu.name.equals(name))
             .findAny()
             .orElseThrow(MenuNotFoundException::new);
+    }
+
+    public static List<String> namesOfCategory(Category category) {
+        return Arrays.stream(values())
+            .filter(menu -> menu.category == category)
+            .map(menu -> menu.name)
+            .toList();
     }
 }
