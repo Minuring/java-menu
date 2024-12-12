@@ -1,11 +1,13 @@
 package menu.domain.food;
 
+import static menu.domain.food.Category.AMERICAN;
 import static menu.domain.food.Category.ASIAN;
 import static menu.domain.food.Category.CHINESE;
 import static menu.domain.food.Category.JAPANESE;
 import static menu.domain.food.Category.KOREAN;
 
 import java.util.Arrays;
+import java.util.List;
 import menu.error.exception.MenuNotFoundException;
 
 public enum Menu {
@@ -17,7 +19,8 @@ public enum Menu {
     ONIGIRI("오니기리", JAPANESE),
     HIRICE("하이라이스", JAPANESE),
     RAMEN("라멘", JAPANESE),
-    OKONOMIA("오코노미야", JAPANESE),
+    OKONOMIAKI("오코노미야끼", JAPANESE),
+
     GIMBAP("김밥", KOREAN),
     GIMCHIJJIGAE("김치찌개", KOREAN),
     SSAMBAP("쌈밥", KOREAN),
@@ -27,6 +30,7 @@ public enum Menu {
     BULGOGI("불고기", KOREAN),
     TTEOKBOKKI("떡볶이", KOREAN),
     JEYUKBOKKEUM("제육볶음", KOREAN),
+
     KKANPUNGI("깐풍기", CHINESE),
     BOGGEUMMYEON("볶음면", CHINESE),
     DONGPAYUK("동파육", CHINESE),
@@ -36,6 +40,7 @@ public enum Menu {
     TANGSUYUK("탕수육", CHINESE),
     TOMATOEGGBOKUM("토마토 달걀볶음", CHINESE),
     GOCHUJAPCHAE("고추잡채", CHINESE),
+
     PATAI("팟타이", ASIAN),
     KAOPAT("카오 팟", ASIAN),
     NASIGORANG("나시고렝", ASIAN),
@@ -45,15 +50,16 @@ public enum Menu {
     BANMI("반미", ASIAN),
     WOLNAMSSAM("월남쌈", ASIAN),
     BUNJJA("분짜", ASIAN),
-    RAJANYA("라자냐", JAPANESE),
-    GRATANG("그라탱", JAPANESE),
-    NYOKKI("뇨끼", JAPANESE),
-    KKISHU("끼슈", JAPANESE),
-    FRENCH("프렌치", JAPANESE),
-    BAGUETTE("바게트", JAPANESE),
-    SPAGHETTI("스파게티", JAPANESE),
-    PIZZA("피자", JAPANESE),
-    PANINI("파니니", JAPANESE);
+
+    RAJANYA("라자냐", AMERICAN),
+    GRATANG("그라탱", AMERICAN),
+    NYOKKI("뇨끼", AMERICAN),
+    KKISHU("끼슈", AMERICAN),
+    FRENCH("프렌치", AMERICAN),
+    BAGUETTE("바게트", AMERICAN),
+    SPAGHETTI("스파게티", AMERICAN),
+    PIZZA("피자", AMERICAN),
+    PANINI("파니니", AMERICAN);
 
     private final String name;
     private final Category category;
