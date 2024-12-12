@@ -1,12 +1,18 @@
 package menu.domain;
 
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.groupingBy;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import java.util.List;
+import java.util.Map;
+import menu.domain.food.Category;
 import menu.error.exception.CoachesCountException;
 import menu.error.exception.DuplicatedCoachException;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -82,5 +88,20 @@ class RecommenderTest {
                 new Coach("ABCD")
             ))
         );
+    }
+
+    @RepeatedTest(50)
+    void choiceCategoriesTest() {
+        Recommender recommender = new Recommender(List.of(
+            new Coach("코치1"),
+            new Coach("코치2")
+        ));
+
+        List<Category> categories = recommender.recommendCategories(5);
+
+        Map<String, Long> countsOfCategory = categories.stream()
+            .collect(groupingBy(Enum::name, counting()));
+        assertThat(countsOfCategory.values())
+            .allMatch(count -> count <= 2);
     }
 }

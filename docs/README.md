@@ -23,7 +23,7 @@
     2. 각 코치가 월요일에 먹을 메뉴를 추천한다.
     3. 화, 수, 목, 금요일에 대해 i, ii 과정을 반복한다.
 
-  - [ ] 추천할 카테고리는 `Randoms.pickNumberInRange()`에서 생성해 준 값을 이용하여 정해야 한다.
+  - [x] 추천할 카테고리는 `Randoms.pickNumberInRange()`에서 생성해 준 값을 이용하여 정해야 한다.
       ```java
       // 예시 코드. 사용하는 자료 구조에 따라 난수를 적절하게 가공해도 된다.
       String category = categories.get(Randoms.pickNumberInRange(1, 5));
