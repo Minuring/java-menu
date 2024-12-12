@@ -2,6 +2,7 @@ package menu.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import menu.domain.food.Menu;
 import menu.error.exception.CoachNameException;
 
@@ -29,5 +30,20 @@ public class Coach {
         }
     }
 
+    @Override
+    public final boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Coach coach)) {
+            return false;
+        }
 
+        return Objects.equals(name, coach.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(name);
+    }
 }
