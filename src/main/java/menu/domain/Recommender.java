@@ -45,27 +45,8 @@ public class Recommender {
         return alreadySelectedCount == MAX_SAME_CATEGORY_PER_WEEK;
     }
 
-    public Map<Coach, List<String>> choiceMenus(Category category, List<Coach> coaches) {
-        Map<Coach, List<String>> recommended = new LinkedHashMap<>();
+    public String choiceMenu(Category category, Coach coach) {
         List<String> menus = Menu.namesOfCategory(category);
-        for (Coach coach : coaches) {
-            choiceMenus(coach, menus, recommended);
-        }
-        return recommended;
-    }
-
-    private void choiceMenus(Coach coach, List<String> menus, Map<Coach, List<String>> recommended) {
-        while(true) {
-            String choose = choiceMenu(menus, coach);
-            List<String> menusOfCoach = recommended.get(coach);
-            if (!menusOfCoach.contains(choose)) {
-                menusOfCoach.add(choose);
-                break;
-            }
-        }
-    }
-
-    private String choiceMenu(List<String> menus, Coach coach) {
         List<String> candidates = computeCandidates(menus, coach);
         return Randoms.shuffle(candidates).get(0);
     }

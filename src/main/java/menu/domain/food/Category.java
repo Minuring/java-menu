@@ -17,6 +17,10 @@ public enum Category {
         this.ordinal = ordinal;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public static Category of(int ordinal) {
         return Arrays.stream(values())
             .filter(category -> category.ordinal == ordinal)
