@@ -105,19 +105,4 @@ class RecommenderTest {
 
         assertThat(countsOfCategory.values()).allMatch(count -> count <= 2);
     }
-
-    @RepeatedTest(50)
-    void choiceMenusTest() {
-        List<Menu> menus = recommender.choiceMenuByNames(
-            List.of("규동", "우동", "미소시루", "스시", "가츠동", "오니기리", "하이라이스", "라멘", "오코노미야끼"),
-            List.of("스시", "오니기리"),
-            5
-        );
-
-        Map<String, Long> countsOfMenu = menus.stream()
-            .collect(groupingBy(Enum::name, counting()));
-
-        assertThat(menus).doesNotContain(Menu.ofName("스시"), Menu.ofName("오니기리"));
-        assertThat(countsOfMenu.values()).allMatch(count -> count == 1);
-    }
 }

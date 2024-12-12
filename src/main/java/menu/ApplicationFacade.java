@@ -1,6 +1,8 @@
 package menu;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import menu.domain.Coach;
 import menu.domain.Recommender;
 import menu.domain.food.Category;
@@ -30,7 +32,13 @@ public class ApplicationFacade {
             });
         }
 
+        Map<Category, Map<Coach, List<String>>> recommendMenuTable = new LinkedHashMap<>();
         List<Category> categories = recommender.recommendCategories(DAYS);
+        for (Category category : categories) {
+            Map<Coach, List<String>> coachMenus = recommender.choiceMenus(category, coaches);
+            recommendMenuTable.put(category, coachMenus);
+        }
+
     }
 
     private void runUntilSuccess(Runnable runnable) {

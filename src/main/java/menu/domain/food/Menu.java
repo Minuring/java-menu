@@ -69,6 +69,10 @@ public enum Menu {
         this.category = category;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public static Menu ofName(String name) {
         return Arrays.stream(values())
             .filter(menu -> menu.name.equals(name))

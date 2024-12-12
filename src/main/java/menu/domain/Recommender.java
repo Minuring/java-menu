@@ -2,7 +2,9 @@ package menu.domain;
 
 import camp.nextstep.edu.missionutils.Randoms;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import menu.domain.food.Category;
 import menu.domain.food.Menu;
 import menu.error.exception.CoachesCountException;
@@ -43,26 +45,37 @@ public class Recommender {
         return alreadySelectedCount == MAX_SAME_CATEGORY_PER_WEEK;
     }
 
-    public List<Menu> choiceMenuByNames(List<String> menus, List<String> exclude, int count) {
-        List<String> menuNames = new ArrayList<>();
-        while (menuNames.size() < count) {
-            String choice = choice(menus, exclude);
-            if (menuNames.contains(choice)) {
-                continue;
-            }
-            menuNames.add(choice);
+    public Map<Coach, List<String>> choiceMenus(Category category, List<Coach> coaches) {
+        Map<Coach, List<String>> recommended = new LinkedHashMap<>();
+        List<String> menus = Menu.namesOfCategory(category);
+        for (Coach coach : coaches) {
+            choiceMenus(coach, menus, recommended);
         }
-
-        return menuNames.stream().map(Menu::ofName).toList();
+        return recommended;
     }
 
-    private String choice(List<String> menus, List<String> exclude) {
-        String choice;
-        do {
-            choice = Randoms.shuffle(menus).get(0);
-        } while (exclude.contains(choice));
+    private void choiceMenus(Coach coach, List<String> menus, Map<Coach, List<String>> recommended) {
+        while(true) {
+            String choose = choiceMenu(menus, coach);
+            List<String> menusOfCoach = recommended.get(coach);
+            if (!menusOfCoach.contains(choose)) {
+                menusOfCoach.add(choose);
+                break;
+            }
+        }
+    }
 
-        return choice;
+    private String choiceMenu(List<String> menus, Coach coach) {
+        List<String> candidates = computeCandidates(menus, coach);
+        return Randoms.shuffle(candidates).get(0);
+    }
+
+    private List<String> computeCandidates(List<String> menus, Coach coach) {
+        return menus.stream()
+            .map(Menu::ofName)
+            .filter(coach::canEat)
+            .map(Menu::getName)
+            .toList();
     }
 
     private void validateDuplicate(List<Coach> coaches) {
